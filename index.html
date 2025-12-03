@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Resume Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .form-section h2 {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .add-btn {
+            background: #28a745;
+            padding: 8px 20px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        .remove-btn {
+            background: #dc3545;
+            padding: 5px 15px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .dynamic-entry {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        @media (max-width: 600px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📄 Resume Builder</h1>
+        <p class="subtitle">Create your professional resume in minutes</p>
+        
+        <form id="resumeForm">
+            <!-- Personal Information -->
+            <div class="form-section">
+                <h2>Personal Information</h2>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" name="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" name="email" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" name="location" placeholder="City, Country">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>LinkedIn / Portfolio URL</label>
+                    <input type="url" name="linkedin">
+                </div>
+                <div class="form-group">
+                    <label>Professional Summary</label>
+                    <textarea name="summary" placeholder="Brief overview of your professional background..."></textarea>
+                </div>
+            </div>
+
+            <!-- Experience -->
+            <div class="form-section">
+                <h2>Work Experience</h2>
+                <div id="experienceContainer"></div>
+                <button type="button" class="add-btn" onclick="addExperience()">+ Add Experience</button>
+            </div>
+
+            <!-- Education -->
+            <div class="form-section">
+                <h2>Education</h2>
+                <div id="educationContainer"></div>
+                <button type="button" class="add-btn" onclick="addEducation()">+ Add Education</button>
+            </div>
+
+            <!-- Skills -->
+            <div class="form-section">
+                <h2>Skills</h2>
+                <div class="form-group">
+                    <label>Skills (comma-separated)</label>
+                    <textarea name="skills" placeholder="JavaScript, Python, Project Management, etc."></textarea>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button type="submit">Generate Resume</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let expCount = 0;
+        let eduCount = 0;
+
+        function addExperience() {
+            expCount++;
+            const container = document.getElementById('experienceContainer');
+            const div = document.createElement('div');
+            div.className = 'dynamic-entry';
+            div.id = `exp-${expCount}`;
+            div.innerHTML = `
+                <div class="form-group">
+                    <label>Job Title</label>
+                    <input type="text" name="exp_title_${expCount}">
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Company</label>
+                        <input type="text" name="exp_company_${expCount}">
+                    </div>
+                    <div class="form-group">
+                        <label>Duration</label>
+                        <input type="text" name="exp_duration_${expCount}" placeholder="Jan 2020 - Present">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="exp_desc_${expCount}" placeholder="Key responsibilities and achievements..."></textarea>
+                </div>
+                <button type="button" class="remove-btn" onclick="removeElement('exp-${expCount}')">Remove</button>
+            `;
+            container.appendChild(div);
+        }
+
+        function addEducation() {
+            eduCount++;
+            const container = document.getElementById('educationContainer');
+            const div = document.createElement('div');
+            div.className = 'dynamic-entry';
+            div.id = `edu-${eduCount}`;
+            div.innerHTML = `
+                <div class="form-group">
+                    <label>Degree</label>
+                    <input type="text" name="edu_degree_${eduCount}">
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Institution</label>
+                        <input type="text" name="edu_institution_${eduCount}">
+                    </div>
+                    <div class="form-group">
+                        <label>Year</label>
+                        <input type="text" name="edu_year_${eduCount}" placeholder="2018 - 2022">
+                    </div>
+                </div>
+                <button type="button" class="remove-btn" onclick="removeElement('edu-${eduCount}')">Remove</button>
+            `;
+            container.appendChild(div);
+        }
+
+        function removeElement(id) {
+            document.getElementById(id).remove();
+        }
+
+        // Initialize with one entry each
+        addExperience();
+        addEducation();
+
+        document.getElementById('resumeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Resume data collected! To integrate with Google Docs, you would need to:\n\n1. Set up a backend server (Node.js, Python, etc.)\n2. Use Google Docs API with OAuth authentication\n3. Send this form data to your backend\n4. Backend creates a formatted Google Doc\n\nFor now, you can copy this data and manually create your resume, or contact your developer to set up the backend integration.');
+        });
+    </script>
+</body>
+</html>
